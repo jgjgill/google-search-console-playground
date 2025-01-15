@@ -2,8 +2,14 @@ import { IncomingWebhook } from "@slack/webhook";
 import { testSearchConsole } from "./test";
 import dotenv from "dotenv";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 dotenv.config();
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Seoul");
 
 const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL!);
 
@@ -121,7 +127,7 @@ async function sendWebhook() {
           elements: [
             {
               type: "mrkdwn",
-              text: `🕒 생성: ${dayjs().format("YYYY-MM-DD HH:mm:ss")}`,
+              text: `🕒 생성: ${dayjs().tz().format("YYYY-MM-DD HH:mm:ss")}`,
             },
           ],
         },

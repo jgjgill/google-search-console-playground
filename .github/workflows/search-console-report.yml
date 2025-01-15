@@ -2,7 +2,7 @@ name: Search Console Weekly Report
 
 on:
   schedule:
-    - cron: "0 17 * * 3"
+    - cron: "30 23 * * 3"
   workflow_dispatch: # 수동 실행 옵션 추가
 
 jobs:

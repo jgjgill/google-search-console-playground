@@ -1,9 +1,15 @@
 import { google } from "googleapis";
 import { JWT } from "google-auth-library";
-import dayjs from "dayjs";
 import dotenv from "dotenv";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 dotenv.config();
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Seoul");
 
 const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
 const privateKey = process.env.GOOGLE_PRIVATE_KEY;
@@ -36,7 +42,7 @@ async function fetchSearchData(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) {
 
 export async function testSearchConsole() {
   // 이번 주 데이터 (3일 전부터 9일 전까지)
-  const currentEndDate = dayjs().subtract(3, "day");
+  const currentEndDate = dayjs().tz().subtract(3, "day");
   const currentStartDate = currentEndDate.subtract(6, "day");
 
   // 지난 주 데이터 (10일 전부터 16일 전까지)
