@@ -2,7 +2,7 @@ name: Search Console Weekly Report
 
 on:
   schedule:
-    - cron: "30 16 * * 3"
+    - cron: "40 16 * * 3"
   workflow_dispatch: # 수동 실행 옵션 추가
 
 jobs:
@@ -45,4 +45,4 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
-        run: pnpm tsx webhook-test.ts
+        run: pnpm start
