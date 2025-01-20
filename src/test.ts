@@ -11,14 +11,62 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Seoul");
 
-const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-const privateKey = process.env.GOOGLE_PRIVATE_KEY;
-const siteUrl = "https://jgjgill-blog.netlify.app";
-const searchConolseUrl =
-  "https://search.google.com/search-console?resource_id=https%3A%2F%2Fjgjgill-blog.netlify.app%2F";
-const projectName = "jgjgill";
+export const schema = [
+  {
+    serviecName: "모네플 - 1",
+    clientEmail: process.env.GOOGLE_CLIENT_EMAIL!,
+    privateKey: process.env.GOOGLE_PRIVATE_KEY!,
+    projects: [
+      {
+        siteUrl: "https://jgjgill-blog.netlify.app",
+        searchConsoleUrl:
+          "https://search.google.com/search-console?resource_id=https%3A%2F%2Fjgjgill-blog.netlify.app%2F",
+        projectName: "jgjgill - 1",
+      },
+      {
+        siteUrl: "https://jgjgill-blog.netlify.app",
+        searchConsoleUrl:
+          "https://search.google.com/search-console?resource_id=https%3A%2F%2Fjgjgill-blog.netlify.app%2F",
+        projectName: "jgjgill - 2",
+      },
+    ],
+  },
+  {
+    serviecName: "모네플 - 2",
+    clientEmail: process.env.GOOGLE_CLIENT_EMAIL!,
+    privateKey: process.env.GOOGLE_PRIVATE_KEY!,
+    projects: [
+      {
+        siteUrl: "https://jgjgill-blog.netlify.app",
+        searchConsoleUrl:
+          "https://search.google.com/search-console?resource_id=https%3A%2F%2Fjgjgill-blog.netlify.app%2F",
+        projectName: "jgjgill - 3",
+      },
+      {
+        siteUrl: "https://jgjgill-blog.netlify.app",
+        searchConsoleUrl:
+          "https://search.google.com/search-console?resource_id=https%3A%2F%2Fjgjgill-blog.netlify.app%2F",
+        projectName: "jgjgill - 4",
+      },
+    ],
+  },
+];
 
-async function fetchSearchData(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) {
+interface FetchSearchData {
+  clientEmail: string;
+  privateKey: string;
+  siteUrl: string;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+}
+
+async function fetchSearchData({
+  clientEmail,
+  privateKey,
+  siteUrl,
+  startDate,
+  endDate,
+}: FetchSearchData) {
   const auth = new JWT({
     email: clientEmail,
     key: privateKey,
@@ -40,7 +88,23 @@ async function fetchSearchData(startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) {
   return searchAnalytics.data.rows || [];
 }
 
-export async function testSearchConsole() {
+interface TestSearchConsole {
+  clientEmail: string;
+  privateKey: string;
+  siteUrl: string;
+  searchConsoleUrl: string;
+  projectName: string;
+  serviceName: string;
+}
+
+export async function testSearchConsole({
+  clientEmail,
+  privateKey,
+  siteUrl,
+  searchConsoleUrl,
+  projectName,
+  serviceName,
+}: TestSearchConsole) {
   // 이번 주 데이터 (3일 전부터 9일 전까지)
   const currentEndDate = dayjs().tz().subtract(3, "day");
   const currentStartDate = currentEndDate.subtract(6, "day");
@@ -50,8 +114,20 @@ export async function testSearchConsole() {
   const previousStartDate = previousEndDate.subtract(6, "day");
 
   const [currentWeekData, previousWeekData] = await Promise.all([
-    fetchSearchData(currentStartDate, currentEndDate),
-    fetchSearchData(previousStartDate, previousEndDate),
+    fetchSearchData({
+      clientEmail,
+      privateKey,
+      siteUrl,
+      startDate: currentStartDate,
+      endDate: currentEndDate,
+    }),
+    fetchSearchData({
+      clientEmail,
+      privateKey,
+      siteUrl,
+      startDate: previousStartDate,
+      endDate: previousEndDate,
+    }),
   ]);
 
   // 주간 합계 계산
@@ -117,9 +193,10 @@ export async function testSearchConsole() {
     currentWeekSummary,
     previousWeekSummary,
     changes,
-    searchConolseUrl,
+    searchConsoleUrl,
     projectName,
+    serviceName,
   };
 }
 
-testSearchConsole();
+// testSearchConsole();
