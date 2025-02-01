@@ -2,7 +2,7 @@ name: Search Console Weekly Report
 
 on:
   schedule:
-    - cron: "30 23 * * 3"
+    - cron: "0 23 * * 3" # 한국 시간(KST): 매주 목요일 오전 8시 00분
   workflow_dispatch: # 수동 실행 옵션 추가
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
 
       - name: Run report script
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USER_OAUTH_TOKEN: ${{ secrets.SLACK_USER_OAUTH_TOKEN }}
           GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
         run: pnpm start

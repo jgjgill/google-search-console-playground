@@ -13,7 +13,7 @@ dayjs.tz.setDefault("Asia/Seoul");
 
 export const schema = [
   {
-    serviecName: "모네플 - 1",
+    serviecName: "블로그 - 1",
     clientEmail: process.env.GOOGLE_CLIENT_EMAIL!,
     privateKey: process.env.GOOGLE_PRIVATE_KEY!,
     projects: [
@@ -32,7 +32,7 @@ export const schema = [
     ],
   },
   {
-    serviecName: "모네플 - 2",
+    serviecName: "블로그 - 2",
     clientEmail: process.env.GOOGLE_CLIENT_EMAIL!,
     privateKey: process.env.GOOGLE_PRIVATE_KEY!,
     projects: [
@@ -198,5 +198,3 @@ export async function testSearchConsole({
     serviceName,
   };
 }
-
-// testSearchConsole();
